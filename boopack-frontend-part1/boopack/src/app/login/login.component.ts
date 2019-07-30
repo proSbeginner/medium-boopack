@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -26,13 +26,18 @@ export class LoginComponent implements OnInit {
     const e = this.form.controls.email.value.trim();
     const p = this.form.controls.password.value.trim();
 
-    const credentials = {
-      username: e,
+    const loginRequest = {
+      email: e,
       password: p,
     };
     const url = `api/login`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
 
-    this.http.post(url, credentials).toPromise().then(user => {
+    this.http.post(url, loginRequest, httpOptions).toPromise().then(user => {
       console.log(user);
     });
   }
